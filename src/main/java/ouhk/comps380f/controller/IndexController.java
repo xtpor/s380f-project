@@ -10,4 +10,10 @@ public class IndexController {
     public String index() {
         return "redirect:/ticket/list";
     }
+
+    @RequestMapping("login")
+    public String login() {
+        return "login";
+    }
+    
 }
