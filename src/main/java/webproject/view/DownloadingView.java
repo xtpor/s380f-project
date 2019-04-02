@@ -1,4 +1,4 @@
-package ouhk.comps380f.view;
+package webproject.view;
 
 import java.util.Map;
 import javax.servlet.ServletOutputStream;

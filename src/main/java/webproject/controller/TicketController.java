@@ -1,4 +1,4 @@
-package ouhk.comps380f.controller;
+package webproject.controller;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -15,9 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
-import ouhk.comps380f.model.Attachment;
-import ouhk.comps380f.model.Ticket;
-import ouhk.comps380f.view.DownloadingView;
+import webproject.model.Attachment;
+import webproject.model.Ticket;
+import webproject.view.DownloadingView;
 
 @Controller
 @RequestMapping("ticket")

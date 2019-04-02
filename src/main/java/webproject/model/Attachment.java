@@ -1,4 +1,4 @@
-package ouhk.comps380f.model;
+package webproject.model;
 
 public class Attachment {
 
