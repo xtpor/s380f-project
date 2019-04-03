@@ -55,6 +55,10 @@ public class DatabaseConfigurator implements InitializingBean {
             System.err.println("[DatabaseConfigurator] Fatal error, encountered error while running sql script");
             ex.printStackTrace();
             return;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
         }
     }
     

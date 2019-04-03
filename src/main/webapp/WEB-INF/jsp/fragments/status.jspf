@@ -1,0 +1,16 @@
+
+<c:if test="${param.status == 'login-success'}">
+    <p>Login success.</p>
+</c:if>
+<c:if test="${param.status == 'login-failed'}">
+    <p>Login failed.</p>
+</c:if>
+<c:if test="${param.status == 'logout'}">
+    <p>You have logged out.</p>
+</c:if>
+<c:if test="${param.status == 'register-success'}">
+    <p>Account registered.</p>
+</c:if>
+<c:if test="${param.status == 'register-failed'}">
+    <p>Registration failed because this username has been taken.</p>
+</c:if>

@@ -15,6 +15,9 @@
     <b:bean id="databaseConfigurator"
             class="webproject.bean.DatabaseConfigurator" />
 
+    <b:bean id="databaseService"
+            class="webproject.bean.DatabaseService" />
+
     <b:bean id="dataSource"
             class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <b:property name="driverClassName" value="org.sqlite.JDBC" />
@@ -24,11 +27,15 @@
     <sec:http auto-config="true">
         <sec:intercept-url pattern="/ticket/delete/**" access="hasRole('ADMIN')" />
         <sec:intercept-url pattern="/ticket/**" access="hasAnyRole('USER','ADMIN')" />
-        <sec:form-login login-page="/login" authentication-failure-url="/login?error" />
-        <sec:logout logout-success-url="/login?logout"
-                invalidate-session="true"
-                delete-cookies="JSESSIONID" />
-        <sec:remember-me key="custSupportSecret" token-validity-seconds="86400" />
+        <sec:intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
+        <sec:form-login login-page="/login"
+                        default-target-url="/?status=login-success" 
+                        authentication-failure-url="/login?status=login-failed" />
+        <sec:logout logout-url="/logout"
+                    logout-success-url="/?status=logout"
+                    invalidate-session="true"
+                    delete-cookies="JSESSIONID" />
+        <sec:remember-me key="someSecret" token-validity-seconds="86400" />
     </sec:http>
 
 
@@ -36,9 +43,9 @@
         <sec:authentication-provider>
             <sec:jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query=
-            "SELECT username, password, true FROM users WHERE username=?"
+            "SELECT username, password, true FROM users WHERE username = ?"
                                authorities-by-username-query=
-            "SELECT username, role FROM user_roles WHERE username=?" />
+            "SELECT username, CASE WHEN is_admin THEN 'ROLE_ADMIN' ELSE 'ROLE_USER' END AS role FROM users WHERE username = ?" />
         </sec:authentication-provider>
     </sec:authentication-manager>
 
