@@ -1,1 +1,4 @@
 /target/
+
+# Database configurations
+/src/main/resources/db.properties

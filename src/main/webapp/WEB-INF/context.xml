@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <b:beans xmlns:b="http://www.springframework.org/schema/beans"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://www.springframework.org/schema/security"
+         xmlns:context="http://www.springframework.org/schema/context"
+         xmlns:sec="http://www.springframework.org/schema/security"
 
          xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 ">
+
+    <context:annotation-config/>
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <b:bean id="databaseConfigurator"
+            class="webproject.bean.DatabaseConfigurator" />
+
     <b:bean id="dataSource"
             class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <b:property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
-        <b:property name="url" value="jdbc:derby://localhost:1527/custsupport" />
-        <b:property name="username" value="nbuser" />
-        <b:property name="password" value="nbuser" />
-    </b:bean>    
+        <b:property name="driverClassName" value="org.sqlite.JDBC" />
+        <b:property name="url" value="${jdbc.url}" />
+    </b:bean>
 
-    <http auto-config="true">
-        <intercept-url pattern="/ticket/delete/**" access="hasRole('ADMIN')" />
-        <intercept-url pattern="/ticket/**" access="hasAnyRole('USER','ADMIN')" />
-        <form-login login-page="/login" authentication-failure-url="/login?error" />
-        <logout logout-success-url="/login?logout"
+    <sec:http auto-config="true">
+        <sec:intercept-url pattern="/ticket/delete/**" access="hasRole('ADMIN')" />
+        <sec:intercept-url pattern="/ticket/**" access="hasAnyRole('USER','ADMIN')" />
+        <sec:form-login login-page="/login" authentication-failure-url="/login?error" />
+        <sec:logout logout-success-url="/login?logout"
                 invalidate-session="true"
                 delete-cookies="JSESSIONID" />
-        <remember-me key="custSupportSecret" token-validity-seconds="86400" />
-    </http>
+        <sec:remember-me key="custSupportSecret" token-validity-seconds="86400" />
+    </sec:http>
 
 
-    <authentication-manager>
-        <authentication-provider>
-            <jdbc-user-service data-source-ref="dataSource"
+    <sec:authentication-manager>
+        <sec:authentication-provider>
+            <sec:jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query=
             "SELECT username, password, true FROM users WHERE username=?"
                                authorities-by-username-query=
             "SELECT username, role FROM user_roles WHERE username=?" />
-        </authentication-provider>        
-    </authentication-manager>
+        </sec:authentication-provider>
+    </sec:authentication-manager>
 
 </b:beans>
