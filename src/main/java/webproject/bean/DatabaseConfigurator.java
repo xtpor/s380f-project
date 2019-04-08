@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import javax.servlet.ServletContext;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,16 +64,18 @@ public class DatabaseConfigurator implements InitializingBean {
     }
     
     private int tablesCount() throws SQLException {
-        PreparedStatement q = conn.prepareStatement("SELECT Count(*) FROM sqlite_master");
+        PreparedStatement q = conn.prepareStatement("SELECT Count(*) FROM sqlite_master WHERE type = 'table'");
         ResultSet s = q.executeQuery();
         s.next();
         return s.getInt(1);
     }
 
     private void runStatements(String s) throws SQLException {
-        String[] statements = s.split(";");
+        String[] statements = s.split(";", -1);
         for (int i=0; i<statements.length - 1; i++) {
-            conn.prepareStatement(statements[i]).executeUpdate();
+            String stmt = statements[i].replaceAll("\\s+", " ");
+            System.out.println("[DatabaseConfigurator] " + stmt);
+            conn.prepareStatement(stmt).executeUpdate();
         }
     }
     
