@@ -2,3 +2,7 @@
 
 # Database configurations
 /src/main/resources/db.properties
+
+# IntelliJ IDEA IDE Related
+/.idea
+*.iml
