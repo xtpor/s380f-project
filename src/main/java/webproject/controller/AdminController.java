@@ -36,9 +36,9 @@ public class AdminController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add(User u) {
         if (databaseService.createUser(u)) {
-            return "redirect:/admin?status=add-user-failed";
-        } else {
             return "redirect:/admin?status=add-user-success";
+        } else {
+            return "redirect:/admin?status=add-user-failed";
         }
     }
 

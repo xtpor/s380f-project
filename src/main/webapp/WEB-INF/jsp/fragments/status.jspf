@@ -14,3 +14,15 @@
 <c:if test="${param.status == 'register-failed'}">
     <p>Registration failed because this username has been taken.</p>
 </c:if>
+<c:if test="${param.status == 'add-user-success'}">
+    <p>User added</p>
+</c:if>
+<c:if test="${param.status == 'add-user-failed'}">
+    <p>Failed to add user</p>
+</c:if>
+<c:if test="${param.status == 'add-poll-success'}">
+    <p>Poll added</p>
+</c:if>
+<c:if test="${param.status == 'add-poll-failed'}">
+    <p>Failed to add poll</p>
+</c:if>
