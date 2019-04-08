@@ -24,8 +24,15 @@
         <b:property name="url" value="${jdbc.url}" />
     </b:bean>
 
+    <b:bean id="accessDeniedHandler" class="webproject.bean.AccessDeniedHandler"/>
+
     <sec:http auto-config="true">
+        <sec:access-denied-handler ref="accessDeniedHandler" />
+        <sec:intercept-url pattern="/login" access="not hasAnyRole('USER','ADMIN')" />
+        <sec:intercept-url pattern="/register" access="not hasAnyRole('USER','ADMIN')" />
+
         <sec:intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
+        <sec:intercept-url pattern="/**" access="hasAnyRole('USER','ADMIN')" />
         <sec:form-login login-page="/login"
                         default-target-url="/?status=login-success" 
                         authentication-failure-url="/login?status=login-failed" />
