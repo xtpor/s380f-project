@@ -14,3 +14,6 @@
 <c:if test="${param.status == 'register-failed'}">
     <p>Registration failed because this username has been taken.</p>
 </c:if>
+<c:if test="${param.status == 'addlecture-success'}">
+    <p>New lecture has been created.</p>
+</c:if>

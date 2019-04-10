@@ -18,6 +18,7 @@
         </sec:authorize>
         <sec:authorize access="hasRole('ADMIN')">
             <li><a href="<c:url value="/admin"/>">Manage Users</a></li>
+            <li><a href="<c:url value="/lecture/addlecture"/>">Add lecture</a></li>
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
             <li>

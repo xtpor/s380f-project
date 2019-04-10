@@ -78,6 +78,4 @@ public class DatabaseConfigurator implements InitializingBean {
             conn.prepareStatement(stmt).executeUpdate();
         }
     }
-    
-    
 }

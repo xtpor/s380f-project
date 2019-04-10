@@ -1,20 +1,25 @@
 package webproject.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import webproject.bean.DatabaseService;
+import webproject.model.Lecture;
 import webproject.model.User;
 
 @Controller
 public class IndexController {
 
-    @Autowired DatabaseService databaseService;
-
+    @Autowired
+    DatabaseService databaseService;
 
     @RequestMapping("/")
-    public String index() {
+    public String index(ModelMap model) {
+        List<Lecture> lecture = databaseService.listLectures();
+        model.addAttribute("lecture", lecture);
         return "index";
     }
 
@@ -38,6 +43,7 @@ public class IndexController {
     }
 
     static class RegisterForm {
+
         private String username;
         private String password;
 
