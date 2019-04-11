@@ -50,10 +50,6 @@ public class PollController {
 
         for(PollOption option : pollViewModel.getOptionList()) {
             option.setPollId(pollId);
-//            System.out.println("check");
-//            System.out.println(pollId);
-//            System.out.println(option.getNo());
-//            System.out.println(option.getContent());
             if (option.getContent().trim().length() > 0) {
                 databaseService.createPollOption(option);
             }
@@ -94,7 +90,7 @@ public class PollController {
 
     @RequestMapping(value = "delete", method = RequestMethod.GET)
     public ModelAndView deleteForm(@RequestParam("id") int id) {
-        ModelAndView mv = new ModelAndView("/poll/delete");
+        ModelAndView mv = new ModelAndView("poll/delete");
         mv.addObject("id", id);
         return mv;
     }
@@ -107,8 +103,6 @@ public class PollController {
 
     @RequestMapping(value = "vote", method = RequestMethod.POST)
     public String vote(PollResponse pollResponse, Principal principal) {
-//        System.out.println("[Vote] " + pollResponse.getPollId() + ", " + pollResponse.getNo());
-
         // Check any response made by the user related to the poll
         pollResponse.setUsername(principal.getName());
         pollResponse.setPostTime(System.currentTimeMillis() / 1000L);
@@ -121,6 +115,14 @@ public class PollController {
 
         databaseService.createPollResponse(pollResponse);
         return "redirect:/poll/?status=vote-success&id=" + pollResponse.getPollId();
+    }
+
+    @RequestMapping(value = "history", method = RequestMethod.GET)
+    public ModelAndView voteHistory(Principal principal) {
+        List<PollResponseHistoryViewModel> userResponses = databaseService.findPollResponsesByUser(principal.getName());
+        ModelAndView mv = new ModelAndView("poll/history");
+        mv.addObject("responses", userResponses);
+        return mv;
     }
 
     @RequestMapping(value = "comment", method = RequestMethod.POST)

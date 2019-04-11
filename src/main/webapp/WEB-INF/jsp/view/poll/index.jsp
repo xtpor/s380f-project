@@ -26,16 +26,16 @@
 
         <c:forEach var="option" items="${options}">
 
-            <form action="${voteUrl}" method="POST">
+            <form action="${voteUrl}" method="POST" style="display: inline; margin-right: 20px">
                 <c:if test="${selectedOption == -1}">
-                    <input type="submit" value="Vote" />
+                    <input type="submit" value="Vote" style="width: 25em"/>
                 </c:if>
                 <c:if test="${selectedOption != -1}">
                     <c:if test="${selectedOption == option.no}">
-                        <input type="submit" value="You have voted for this option" disabled>
+                        <input type="submit" value="You have voted for this option" disabled style="width: 20em">
                     </c:if>
                     <c:if test="${selectedOption != option.no}">
-                        <input type="submit" value="Re-vote" />
+                        <input type="submit" value="Re-vote" style="width: 20em"/>
                     </c:if>
                 </c:if>
                 <input type="hidden" name="no" value="${option.no}">
@@ -43,9 +43,9 @@
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
 
-            <c:out value="${option.content}" />
+            ${option.content}
 
-            &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
             <c:choose>
                 <c:when test="${counts.get(option.no) != null}">
@@ -60,10 +60,12 @@
 
         </c:forEach>
 
+        <hr>
+
+        <ol>
         <c:forEach var="comment" items="${comments}">
             <jsp:useBean id="dateValue" class="java.util.Date"/>
             <jsp:setProperty name="dateValue" property="time" value="${comment.postTime * 1000}"/>
-            <hr>
             <br>
 
             Date: <fmt:formatDate value="${dateValue}" pattern="dd/MM/yyyy HH:mm"/>
@@ -83,9 +85,10 @@
             Name: <c:out value="${comment.username}" /> <br><br><br>
             Comment: <c:out value="${comment.content}" /> <br>
             <br>
+            <hr>
         </c:forEach>
+        </ol>
 
-        <hr>
         <br>
         <h3>Comment</h3>
 

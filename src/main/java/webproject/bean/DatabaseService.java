@@ -340,6 +340,55 @@ public class DatabaseService implements InitializingBean {
         }
     }
 
+//    public List<PollResponse> findPollResponsesByUser(String username) {
+//        try {
+//            PreparedStatement st = conn.prepareStatement(
+//                    "SELECT * FROM poll_responses WHERE username = ? "
+//            );
+//            st.setString(1, username);
+//            ResultSet rs = st.executeQuery();
+//            List<PollResponse> userResponses = new ArrayList<PollResponse>();
+//
+//            while (rs.next()) {
+//                userResponses.add(new PollResponse(
+//                    rs.getString(1),
+//                    rs.getInt(2),
+//                    rs.getInt(3),
+//                    rs.getLong(4)
+//                ));
+//            }
+//            return userResponses;
+//        } catch (SQLException ex) {
+//            throw new RuntimeException(ex);
+//        }
+//    }
+
+    public List<PollResponseHistoryViewModel> findPollResponsesByUser(String username) {
+        try {
+            PreparedStatement st = conn.prepareStatement(
+                    "SELECT p.question, pr.post_time, pr.pollId, po.content FROM poll_responses AS pr " +
+                            "INNER JOIN poll_options AS po ON po.pollId = pr.pollId AND po.no = pr.no " +
+                            "INNER JOIN polls AS p ON p.id = pr.pollId WHERE pr.username = ?" +
+                            "ORDER BY pr.post_time DESC"
+            );
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            List<PollResponseHistoryViewModel> userResponsesHistoryModel = new ArrayList<PollResponseHistoryViewModel>();
+
+            while (rs.next()) {
+                userResponsesHistoryModel.add(new PollResponseHistoryViewModel(
+                    rs.getString(1),
+                    rs.getLong(2),
+                    rs.getInt(3),
+                    rs.getString(4)
+                ));
+            }
+            return userResponsesHistoryModel;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     public void updatePollResponse(PollResponse pollResponse) {
         try {
             PreparedStatement st = conn.prepareStatement(
@@ -400,7 +449,7 @@ public class DatabaseService implements InitializingBean {
         }
     }
 
-    public void deletePollComment(int id) { // TODO delete related poll options, responses, comments
+    public void deletePollComment(int id) {
         try {
             // delete related poll comments
             PreparedStatement st = conn.prepareStatement("DELETE FROM poll_comments WHERE id = ?");
