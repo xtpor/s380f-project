@@ -4,22 +4,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import webproject.bean.DatabaseService;
 import webproject.model.User;
+
+import java.security.Principal;
 
 @Controller
 public class IndexController {
 
-    @Autowired DatabaseService databaseService;
-
+    @Autowired
+    DatabaseService databaseService;
 
     @RequestMapping("/")
-    public String index() {
-        return "index";
+    public ModelAndView index() {
+        ModelAndView mv = new ModelAndView("index");
+        mv.addObject("polls", databaseService.getPollList());
+
+        return mv;
     }
 
     @RequestMapping("login")
-    public String login() {
+    public String login(Principal principal) {
+        if(principal != null) {
+            return "redirect:/";
+        }
+
         return "login";
     }
 

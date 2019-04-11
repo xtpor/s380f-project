@@ -3,26 +3,44 @@
     <p>Login success.</p>
 </c:if>
 <c:if test="${param.status == 'login-failed'}">
-    <p>Login failed.</p>
+    <p><font color="red">Login failed.</font></p>
 </c:if>
 <c:if test="${param.status == 'logout'}">
     <p>You have logged out.</p>
 </c:if>
 <c:if test="${param.status == 'register-success'}">
-    <p>Account registered.</p>
+    <p><font color="red">Account registered.</font></p>
 </c:if>
 <c:if test="${param.status == 'register-failed'}">
-    <p>Registration failed because this username has been taken.</p>
+    <p><font color="red">Registration failed because this username has been taken.</font></p>
 </c:if>
 <c:if test="${param.status == 'add-user-success'}">
-    <p>User added</p>
+    <p><font color="#32cd32">User added</font></p>
 </c:if>
 <c:if test="${param.status == 'add-user-failed'}">
-    <p>Failed to add user</p>
+    <p><font color="red">Failed to add user</font></p>
 </c:if>
 <c:if test="${param.status == 'add-poll-success'}">
-    <p>Poll added</p>
+    <p><font color="#32cd32">Poll added</font></p>
 </c:if>
 <c:if test="${param.status == 'add-poll-failed'}">
-    <p>Failed to add poll</p>
+    <p><font color="red">Failed to add poll</font></p>
+</c:if>
+<c:if test="${param.status == 'vote-success'}">
+    <p><font color="#32cd32">Vote success</font></p>
+</c:if>
+<c:if test="${param.status == 'edit-vote-success'}">
+    <p><font color="#32cd32">Re-vote success</font></p>
+</c:if>
+<c:if test="${param.status == 'edit-poll-option-success'}">
+    <p><font color="#32cd32">Edited poll options</font></p>
+</c:if>
+<c:if test="${param.status == 'comment-success'}">
+    <p><font color="#32cd32">Comment success</font></p>
+</c:if>
+<c:if test="${param.status == 'comment-empty'}">
+    <p><font color="red">Comment failed: Your comment is empty!</font></p>
+</c:if>
+<c:if test="${param.status == 'delete-comment-success'}">
+    <p>Deleted a comment</p>
 </c:if>
