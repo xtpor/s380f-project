@@ -1,11 +1,14 @@
 package webproject.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import webproject.bean.DatabaseService;
+import webproject.model.Lecture;
 import webproject.model.User;
 
 import java.security.Principal;
@@ -20,6 +23,7 @@ public class IndexController {
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView("index");
         mv.addObject("polls", databaseService.getPollList());
+        mv.addObject("lecture", databaseService.listLectures());
 
         return mv;
     }
@@ -48,6 +52,7 @@ public class IndexController {
     }
 
     static class RegisterForm {
+
         private String username;
         private String password;
 

@@ -14,6 +14,7 @@
 <c:if test="${param.status == 'register-failed'}">
     <p><font color="red">Registration failed because this username has been taken.</font></p>
 </c:if>
+
 <c:if test="${param.status == 'add-user-success'}">
     <p><font color="#32cd32">User added</font></p>
 </c:if>
@@ -43,4 +44,8 @@
 </c:if>
 <c:if test="${param.status == 'delete-comment-success'}">
     <p>Deleted a comment</p>
+</c:if>
+
+<c:if test="${param.status == 'addlecture-success'}">
+    <p>New lecture has been created.</p>
 </c:if>

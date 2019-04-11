@@ -9,7 +9,7 @@
     <sec:authorize access="hasRole('ADMIN')">
         <p>You are a lecturer.</p>
     </sec:authorize>
-        
+
     <ul>
         <li><a href="<c:url value="/"/>">Main Page</a></li>
         <sec:authorize access="not isAuthenticated()">
@@ -21,6 +21,7 @@
         </sec:authorize>
         <sec:authorize access="hasRole('ADMIN')">
             <li><a href="<c:url value="/admin"/>">Manage Users</a></li>
+            <li><a href="<c:url value="/lecture/addlecture"/>">Add lecture</a></li>
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
             <li>

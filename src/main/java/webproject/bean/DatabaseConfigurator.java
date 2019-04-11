@@ -17,20 +17,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DatabaseConfigurator implements InitializingBean {
-    
+
     @Autowired DriverManagerDataSource dataSource;
     @Autowired ServletContext servletContext;
     Connection conn;
-    
+
 
     @Override
-    public void afterPropertiesSet() throws Exception {  
+    public void afterPropertiesSet() throws Exception {
         String tablesSql;
         String seedSql;
         try {
             String tablesSqlPath = servletContext.getRealPath("/WEB-INF/classes/tables.sql");
             tablesSql = new String(Files.readAllBytes(Paths.get(tablesSqlPath)));
-        
+
             String seedSqlPath = servletContext.getRealPath("/WEB-INF/classes/seed.sql");
             seedSql = new String(Files.readAllBytes(Paths.get(seedSqlPath)));
         } catch (IOException ex) {
@@ -38,10 +38,10 @@ public class DatabaseConfigurator implements InitializingBean {
             ex.printStackTrace();
             return;
         }
-        
+
         try {
             conn = dataSource.getConnection();
-            
+
             if (tablesCount() == 0) {
                 System.out.println("[DatabaseConfigurator] The database is empty, creating tables");
                 runStatements(tablesSql);
@@ -61,7 +61,7 @@ public class DatabaseConfigurator implements InitializingBean {
             }
         }
     }
-    
+
     private int tablesCount() throws SQLException {
         PreparedStatement q = conn.prepareStatement("SELECT Count(*) FROM sqlite_master WHERE type = 'table'");
         ResultSet s = q.executeQuery();
@@ -77,6 +77,4 @@ public class DatabaseConfigurator implements InitializingBean {
             conn.prepareStatement(stmt).executeUpdate();
         }
     }
-    
-    
 }

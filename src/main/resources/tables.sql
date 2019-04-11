@@ -38,3 +38,23 @@ CREATE TABLE poll_comments (
     FOREIGN KEY (username) REFERENCES users(username),
     FOREIGN KEY (pollId) REFERENCES polls(id)
 );
+
+CREATE TABLE lecture (
+    lid INTEGER PRIMARY KEY,
+    title TEXT NOT NULL
+);
+
+CREATE TABLE attachment (
+    aid INTEGER PRIMARY KEY,
+    lid INTEGER NOT NULL,
+    filename TEXT NOT NULL,
+    filetype TEXT NOT NULL,
+    content BLOB NOT NULL
+);
+
+CREATE TABLE comment (
+    cid INTEGER PRIMARY KEY,
+    lid INTEGER NOT NULL,
+    username TEXT NOT NULL,
+    comment TEXT NOT NULL
+);
