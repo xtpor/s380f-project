@@ -55,11 +55,15 @@ public class DatabaseService implements InitializingBean {
         }
     }
 
-    public void createLecture(String title, List<MultipartFile> files) throws IOException {
+    public boolean createLecture(String title, List<MultipartFile> files) throws IOException {
         try {
             Statement s = conn.createStatement();
             s.execute("BEGIN");
-
+            
+            if ("".equals(title)) {
+                s.execute("ROLLBACK");
+                return false;
+            }
             PreparedStatement st1 = conn.prepareStatement("INSERT INTO lecture VALUES (?, ?)");
             st1.setString(1, null);
             st1.setString(2, title);
@@ -70,9 +74,12 @@ public class DatabaseService implements InitializingBean {
 
             PreparedStatement st3 = conn.prepareStatement("INSERT INTO attachment VALUES (?, ?, ?, ?, ?)");
             for (MultipartFile file : files) {
-                System.out.println(file.getOriginalFilename());
-                System.out.println(file.getContentType());
-                System.out.println(Arrays.toString(file.getBytes()));
+                if("".equals(file.getOriginalFilename())) {
+                    s.execute("ROLLBACK");
+                    return false;
+                }
+                //System.out.println(file.getContentType());
+                //System.out.println(Arrays.toString(file.getBytes()));
 
                 st3.setObject(1, null);
                 st3.setObject(2, rs2.getString(1));
@@ -83,6 +90,7 @@ public class DatabaseService implements InitializingBean {
             }
             st3.executeBatch();
             s.execute("COMMIT");
+            return true;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -120,16 +128,19 @@ public class DatabaseService implements InitializingBean {
         }
     }
 
-    public void addAttachment(int lid, List<MultipartFile> attachments) throws IOException {
+    public boolean addAttachment(int lid, List<MultipartFile> attachments) throws IOException {
         try {
             Statement s = conn.createStatement();
             s.execute("BEGIN");
             PreparedStatement st = conn.prepareStatement("INSERT INTO attachment VALUES (?, ?, ?, ?, ?)");
             for (MultipartFile file : attachments) {
-                System.out.println(file.getOriginalFilename());
-                System.out.println(file.getContentType());
-                System.out.println(Arrays.toString(file.getBytes()));
-
+                //System.out.println(file.getOriginalFilename());
+                //System.out.println(file.getContentType());
+                //System.out.println(Arrays.toString(file.getBytes()));
+                if("".equals(file.getOriginalFilename())) {
+                    s.execute("ROLLBACK");
+                    return false;
+                }
                 st.setObject(1, null);
                 st.setObject(2, lid);
                 st.setObject(3, file.getOriginalFilename());
@@ -139,6 +150,7 @@ public class DatabaseService implements InitializingBean {
             }
             st.executeBatch();
             s.execute("COMMIT");
+            return true;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -178,10 +190,15 @@ public class DatabaseService implements InitializingBean {
         }
     }
 
-    public void makeComment(int lid, String name, String comment) {
+    public boolean makeComment(int lid, String name, String comment) {
         try {
             Statement s = conn.createStatement();
             s.execute("BEGIN");
+            System.out.println("".equals(comment));
+            if ("".equals(comment)) {
+                s.execute("ROLLBACK");
+                return false;
+            }
             PreparedStatement st1 = conn.prepareStatement("insert into comment values (?, ?, ?, ?)");
             st1.setObject(1, null);
             st1.setInt(2, lid);
@@ -189,6 +206,7 @@ public class DatabaseService implements InitializingBean {
             st1.setString(4, comment);
             st1.executeUpdate();
             s.execute("COMMIT");
+            return true;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }

@@ -32,8 +32,11 @@ public class CourseMaterialController {
 
     @RequestMapping(value = "addlecture", method = RequestMethod.POST)
     public String createLecture(Form form) throws IOException {
-        databaseService.createLecture(form.getTitle(), form.getAttachments());
-        return "redirect:/lecture/addlecture?status=addlecture-success";
+        if (databaseService.createLecture(form.getTitle(), form.getAttachments())) {
+            return "redirect:/lecture/addlecture?status=addlecture-success";
+        } else {
+            return "redirect:/lecture/addlecture?status=addlecture-fail";
+        }
     }
 
     public static class Form {
@@ -72,14 +75,17 @@ public class CourseMaterialController {
     }
 
     @RequestMapping(value = "view/{lid}", method = RequestMethod.POST)
-    public String comment(@PathVariable("lid") int lid, CommentForm comment, Form form) throws IOException {
-        System.out.println(comment.getId());
+    public String view(@PathVariable("lid") int lid, CommentForm comment, Form form) throws IOException {
         if (comment.getId() > 0) {
-            databaseService.makeComment(comment.getId(), comment.getName(), comment.getComment());
-        } else {
-            databaseService.addAttachment(lid, form.getAttachments());
+            if (databaseService.makeComment(comment.getId(), comment.getName(), comment.getComment())) {
+                return "redirect:/lecture/view/" + lid;
+            } else {
+                return "redirect:/lecture/view/" + lid + "?status=comment-fail";
+            }
+        } else if (databaseService.addAttachment(lid, form.getAttachments())) {
+            return "redirect:/lecture/view/" + lid;
         }
-        return "redirect:/lecture/view/" + lid;
+        return "redirect:/lecture/view/" + lid + "?status=addattachment-fail";
     }
 
     @RequestMapping(value = "delete", method = RequestMethod.GET)
