@@ -12,8 +12,8 @@ INSERT INTO poll_options VALUES (2, 1, 'Keith');
 INSERT INTO poll_options VALUES (2, 2, 'Oliver');
 INSERT INTO poll_options VALUES (2, 3, 'Jeff');
 
-INSERT INTO poll_comments (username, pollId, post_time, comment) VALUES ('user', 1, 1546300800, 'first comment from user');
-INSERT INTO poll_comments (username, pollId, post_time, comment) VALUES ('admin', 1, 1546300800, 'first comment from admin');
+INSERT INTO poll_comments (username, pollId, post_time, content) VALUES ('user', 1, 1546300800, 'first comment from user');
+INSERT INTO poll_comments (username, pollId, post_time, content) VALUES ('admin', 1, 1546300800, 'first comment from admin');
 
 INSERT INTO lecture VALUES(1,'hello');
 INSERT INTO attachment VALUES(1,1,'test1.txt','text/plain',X'66696c652031');

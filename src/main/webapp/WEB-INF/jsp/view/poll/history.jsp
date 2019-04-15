@@ -37,7 +37,7 @@
                 <fmt:formatDate value="${dateValue}" pattern="dd/MM/yyyy HH:mm"/>
             </td>
             <td>
-                <a href="${pollUrl}" style="margin-left: 15px"><c:out value="${response.content}"/></a>
+                <a href="${pollUrl}" style="margin-left: 15px"><c:out value="${response.question}"/></a>
             </td>
             <td>
                 <c:out value="${response.content}"/>
