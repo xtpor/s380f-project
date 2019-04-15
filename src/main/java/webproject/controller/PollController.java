@@ -30,7 +30,11 @@ public class PollController {
     public ModelAndView index(@RequestParam("id") int id, Principal principal) {
         ModelAndView mv = new ModelAndView("poll/index");
 
-        mv.addObject("poll", databaseService.findPollByPollId(id));
+        Poll poll = databaseService.findPollByPollId(id);
+        if (poll == null) {
+            return new ModelAndView("redirect:/");
+        }
+        mv.addObject("poll", poll);
         mv.addObject("options", databaseService.findPollOptionListByPollId(id));
         mv.addObject("counts", databaseService.findCountsByPollId(id));
         mv.addObject("selectedOption", databaseService.findPollResponseByUserInPoll(principal.getName(), id));

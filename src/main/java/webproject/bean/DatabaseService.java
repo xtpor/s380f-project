@@ -413,7 +413,7 @@ public class DatabaseService implements InitializingBean {
         }
     }
 
-    public void deletePoll(int id) { // TODO delete related poll options, responses, comments
+    public void deletePoll(int id) {
         try {
             Statement s = conn.createStatement();
             s.execute("BEGIN");

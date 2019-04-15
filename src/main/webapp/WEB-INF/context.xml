@@ -27,7 +27,7 @@
     <b:bean id="accessDeniedHandler" class="webproject.bean.AccessDeniedHandler"/>
 
     <sec:http auto-config="true">
-        <!--<sec:access-denied-handler ref="accessDeniedHandler" />-->
+        <sec:access-denied-handler ref="accessDeniedHandler" />
         <sec:intercept-url pattern="/login" access="not hasAnyRole('USER','ADMIN')" />
         <sec:intercept-url pattern="/register" access="not hasAnyRole('USER','ADMIN')" />
         <sec:intercept-url pattern="/" access="permitAll()" />
